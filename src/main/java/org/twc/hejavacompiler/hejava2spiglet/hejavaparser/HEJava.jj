@@ -307,6 +307,8 @@ void Statement() :
 | 	LOOKAHEAD(3)
 	PrintLineStatement() ";"
 | 	AnswerStatement() ";"
+
+
 }
 
 void Block() :
@@ -443,6 +445,10 @@ void Expression() :
 | 	LOOKAHEAD( <PRIVATE_SEEK> )
 	PrivateSeekExpression()
 | 	Clause()
+
+	/*OMAR: 
+		add my new instuctions as expressions here
+	*/
 }
 
 void LogicalAndExpression() :
