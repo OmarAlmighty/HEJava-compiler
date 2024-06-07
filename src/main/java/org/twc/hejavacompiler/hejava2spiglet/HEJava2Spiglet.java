@@ -108,7 +108,10 @@ public class HEJava2Spiglet extends GJDepthFirst<Base_t, Base_t> {
         this.asm_.append("END\n");
         return null;
     }
-
+    /** OMAR:
+            The new instructions should have some `visit` functions to parse them here.
+    */
+    
     /**
      * f0 -> ClassDeclaration()
      * | ClassExtendsDeclaration()
