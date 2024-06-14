@@ -402,7 +402,8 @@ public class Spiglet2Kanga extends GJNoArguDepthFirst<String> {
                 "AND ", "OR ", "XOR ", "SLL ", "SRL ",
                 "E_LT ", "E_LTE ", "E_GT ", "E_GTE ", "E_EQ ", "E_NEQ ",
                 "E_PLUS ", "E_MINUS ", "E_TIMES ", "E_DIV ", "E_MOD ",
-                "E_AND ", "E_OR ", "E_XOR ", "E_SLL ", "E_SRL "
+                "E_AND ", "E_OR ", "E_XOR ", "E_SLL ", "E_SRL ",
+                "E_ROL ", "E_ROR "
         };
         return _ret[n.f0.which];
     }

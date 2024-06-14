@@ -518,6 +518,10 @@ public class HEJava2Spiglet extends GJDepthFirst<Base_t, Base_t> {
             opcode = "OR";
         } else if ("^=".equals(operator)) {
             opcode = "XOR";
+        } else if (">>>=".equals(operator)) {
+            opcode = "ROR";
+        } else if ("<<<=".equals(operator)) {
+            opcode = "ROL";
         } else {
             throw new IllegalStateException("CompoundAssignmentStatement: unexpected value " + operator);
         }
@@ -576,7 +580,7 @@ public class HEJava2Spiglet extends GJDepthFirst<Base_t, Base_t> {
      * | 	"^="
      */
     public Base_t visit(CompoundOperator n, Base_t argu) throws Exception {
-        String[] _ret = {"+=", "-=", "*=", "/=", "%=", "<<=", ">>=", "&=", "|=", "^="};
+        String[] _ret = {"+=", "-=", "*=", "/=", "%=", "<<=", ">>=", "&=", "|=", "^=",  ">>>=", "<<<="};
         return new Variable_t(_ret[n.f0.which], _ret[n.f0.which]);
     }
 
@@ -846,6 +850,14 @@ public class HEJava2Spiglet extends GJDepthFirst<Base_t, Base_t> {
             opcode = "GT";
         } else if (">=".equals(operator)) {
             opcode = "GTE";
+        } else if (">>>=".equals(operator)) {
+            opcode = "ROR";
+        } else if (">>>".equals(operator)){
+            opcode = "ROR";
+        } else if ("<<<=".equals(operator)) {
+            opcode = "ROL";
+        } else if ("<<<".equals(operator)) {
+            opcode = "ROL";
         } else {
             throw new IllegalStateException("CompoundAssignmentStatement: Unexpected value: " + operator);
         }
@@ -928,7 +940,7 @@ public class HEJava2Spiglet extends GJDepthFirst<Base_t, Base_t> {
      * |	">="
      */
     public Base_t visit(BinOperator n, Base_t argu) throws Exception {
-        String[] _ret = {"&", "|", "^", "<<", ">>", "+", "-", "*", "/", "%", "==", "!=", "<", "<=", ">", ">="};
+        String[] _ret = {"&", "|", "^", "<<", ">>", "+", "-", "*", "/", "%", "==", "!=", "<", "<=", ">", ">=", ">>>", "<<<"};
         return new Variable_t(_ret[n.f0.which], _ret[n.f0.which]);
     }
 

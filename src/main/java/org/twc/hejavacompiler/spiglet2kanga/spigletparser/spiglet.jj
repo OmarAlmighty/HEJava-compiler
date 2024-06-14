@@ -94,6 +94,8 @@ TOKEN :
 | < MEM: "MEM" >
 | < TEMP: "TEMP" >
 | < ARG: "ARG" >
+| < E_ROR: "E_ROR">
+| < E_ROL : "E_ROL">
 }
 
 TOKEN : /* LITERALS */
@@ -357,6 +359,8 @@ void Operator() :
 | "E_XOR"
 | "E_SLL"
 | "E_SRL"
+| "E_ROL"
+| "E_ROR"
 }
 
 void NotExp() :

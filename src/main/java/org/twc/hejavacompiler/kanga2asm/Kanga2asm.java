@@ -400,7 +400,8 @@ public class Kanga2asm extends GJNoArguDepthFirst<String> {
 
                 "ecmpl", "ecmpleq", "ecmpeq", "ecmpneq",         // comparison
                 "eadd", "esub", "emult", "ediv", "emod", // arithmetic
-                "eand", "eor", "exor", "esll", "eslr"    // bitwise
+                "eand", "eor", "exor", "esll", "eslr",    // bitwise
+                "erol", "eror"                                // pulpFHE
         };
         return retValue[n.f0.which];
     }

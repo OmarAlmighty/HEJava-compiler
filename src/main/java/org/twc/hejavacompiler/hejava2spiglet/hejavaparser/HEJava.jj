@@ -85,6 +85,8 @@ TOKEN :
 	/*OMAR: add my new instruction as tokens here: variance, stddev, relu, max, min, rot_r, rot_l.
 		we will override the division and addition (for addition use the kogge-stone adder)
 	*/
+	| <ROR : ">>>">  // Rotate right
+	| <ROL : "<<<">  // Rotate left
 }
 
 TOKEN : /* LITERALS */
@@ -355,6 +357,8 @@ void CompoundOperator() :
 | 	"&="
 | 	"|="
 | 	"^="
+|   "<<<="
+|   ">>>="
 }
 
 void ArrayAssignmentStatement() :
@@ -488,6 +492,8 @@ void BinOperator() :
 |	"<="
 |	">"
 |	">="
+|   ">>>"
+|   "<<<"
 }
 
 void BinNotExpression() :

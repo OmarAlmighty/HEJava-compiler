@@ -435,7 +435,7 @@ public class TypeCheckVisitor extends GJDepthFirst<Base_t, Base_t> {
      * | 	"^="
      */
     public Base_t visit(CompoundOperator n, Base_t argu) throws Exception {
-        String[] _ret = {"+=", "-=", "*=", "/=", "%=", "<<=", ">>=", "&=", "|=", "^="};
+        String[] _ret = {"+=", "-=", "*=", "/=", "%=", "<<=", ">>=", "&=", "|=", "^=", "<<<=", ">>>="};
         return new Variable_t("int", _ret[n.f0.which]);
     }
 
@@ -693,6 +693,7 @@ public class TypeCheckVisitor extends GJDepthFirst<Base_t, Base_t> {
         String t2 = findType(clause_2, (Method_t) argu).getType();
         if ("&".equals(operator) || "|".equals(operator) || "^".equals(operator) || "<<".equals(operator) || ">>".equals(operator)
                 || "+".equals(operator) || "-".equals(operator) || "*".equals(operator) || "/".equals(operator) || "%".equals(operator)
+                || ">>>".equals(operator) || "<<<".equals(operator)
         ) {
             if (t1.equals("int") && t2.equals("int")) {
                 return new Variable_t("int");
@@ -732,11 +733,13 @@ public class TypeCheckVisitor extends GJDepthFirst<Base_t, Base_t> {
      * |	">="
      */
     public Base_t visit(BinOperator n, Base_t argu) throws Exception {
-        String[] _ret = {"&", "|", "^", "<<", ">>", "+", "-", "*", "/", "%", "==", "!=", "<", "<=", ">", ">="};
+        String[] _ret = {"&", "|", "^", "<<", ">>", "+", "-", "*", "/", "%", "==", "!=", "<", "<=", ">", ">=", "<<<", ">>>", "<<<=", ">>>="};
         String operator = _ret[n.f0.which];
         if ("&".equals(operator) || "|".equals(operator) || "^".equals(operator)
                 || "<<".equals(operator) || ">>".equals(operator) || "<<=".equals(operator) || ">>=".equals(operator)
-                || "+".equals(operator) || "-".equals(operator) || "*".equals(operator) || "/".equals(operator) || "%".equals(operator)) {
+                || "+".equals(operator) || "-".equals(operator) || "*".equals(operator) || "/".equals(operator) || "%".equals(operator)
+                || "<<<".equals(operator) || "<<<=".equals(operator) || ">>>".equals(operator) || ">>>=".equals(operator)
+        ) {
             return new Variable_t("int", operator);
         } else if ("==".equals(operator) || "!=".equals(operator) || "<".equals(operator) || "<=".equals(operator) || ">".equals(operator) || ">=".equals(operator)) {
             return new Variable_t("boolean", operator);
