@@ -127,6 +127,7 @@ TOKEN :
 | < ra: "ra" >
 | < E_ROR : "E_ROR">
 | < E_ROL : "E_ROL">
+| < E_SQRT : "E_SQRT">
 }
 
 TOKEN : /* LITERALS */
@@ -353,6 +354,7 @@ void Exp():
 | BinOp()
 | NotExp()
 | SimpleExp()
+| SqrtExp()
 }
 
 
@@ -405,6 +407,12 @@ void Operator() :
 | "E_SRL"
 | "E_ROL"
 | "E_ROR"
+}
+
+void SqrtExp() :
+{}
+{
+<E_SQRT> SimpleExp()
 }
 
 void NotExp() :

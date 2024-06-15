@@ -87,6 +87,7 @@ TOKEN :
 	*/
 	| <ROR : ">>>">  // Rotate right
 	| <ROL : "<<<">  // Rotate left
+	| <SQRT : "Processor.sqrt" >
 }
 
 TOKEN : /* LITERALS */
@@ -421,6 +422,7 @@ void AnswerStatement() :
 	<ANSWER> "(" Expression() ")"
 }
 
+
 void Expression() :
 {}
 {
@@ -448,11 +450,20 @@ void Expression() :
 	PublicSeekExpression()
 | 	LOOKAHEAD( <PRIVATE_SEEK> )
 	PrivateSeekExpression()
+|  LOOKAHEAD( <SQRT> )
+    SqrtExpression()
 | 	Clause()
 
 	/*OMAR: 
 		add my new instuctions as expressions here
 	*/
+
+}
+
+void SqrtExpression() :
+{}
+{
+    <SQRT> "(" Expression() ")"
 }
 
 void LogicalAndExpression() :

@@ -401,9 +401,21 @@ public class Kanga2asm extends GJNoArguDepthFirst<String> {
                 "ecmpl", "ecmpleq", "ecmpeq", "ecmpneq",         // comparison
                 "eadd", "esub", "emult", "ediv", "emod", // arithmetic
                 "eand", "eor", "exor", "esll", "eslr",    // bitwise
-                "erol", "eror"                                // pulpFHE
+                "erol", "eror",                                // pulpFHE
+                "esqrt"
         };
         return retValue[n.f0.which];
+    }
+
+    /**
+     * f0 -> "E_SQRT"
+     * f1 -> SimpleExp()
+     */
+    public String visit(SqrtExp n) throws Exception {
+        String _ret = "v1";
+        String reg = n.f1.accept(this);
+        asmPrinter_.println("esqrt " + _ret + ", " + reg);
+        return _ret;
     }
 
     /**

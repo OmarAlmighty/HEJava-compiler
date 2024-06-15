@@ -627,6 +627,8 @@ public class TypeCheckVisitor extends GJDepthFirst<Base_t, Base_t> {
         throw new Exception("Answer statement not boolean, int, or EncInt.");
     }
 
+
+
     /**
      * f0 -> LogicalAndExpression()
      * | LogicalOrExpression()
@@ -746,6 +748,17 @@ public class TypeCheckVisitor extends GJDepthFirst<Base_t, Base_t> {
         } else {
             throw new IllegalStateException("BinOperator: Unexpected value: " + operator);
         }
+    }
+
+    /**
+     * f0 -> "Processor.sqrt"
+     * f1 -> "("
+     * f2 -> Expression()
+     * f3 -> ")"
+     * */
+    @Override
+    public Base_t visit(SqrtExpression n, Base_t argu) throws Exception {
+        return new Variable_t("EncInt");
     }
 
     /**

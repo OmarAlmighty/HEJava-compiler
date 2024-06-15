@@ -96,6 +96,7 @@ TOKEN :
 | < ARG: "ARG" >
 | < E_ROR: "E_ROR">
 | < E_ROL : "E_ROL">
+| <E_SQRT : "E_SQRT">
 }
 
 TOKEN : /* LITERALS */
@@ -298,8 +299,15 @@ void Exp():
   NotExp()
 |
   SimpleExp()
+|
+  SqrtExp()
 }
 
+void SqrtExp():
+{}
+{
+<E_SQRT> SimpleExp()
+}
 void StmtExp() :
 {}
 {

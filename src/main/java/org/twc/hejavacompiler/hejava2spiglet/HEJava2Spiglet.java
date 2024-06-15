@@ -525,7 +525,7 @@ public class HEJava2Spiglet extends GJDepthFirst<Base_t, Base_t> {
         } else {
             throw new IllegalStateException("CompoundAssignmentStatement: unexpected value " + operator);
         }
-        if (opcode.equals("SLL") || opcode.equals("SRL")) {
+        if (opcode.equals("SLL") || opcode.equals("SRL") || opcode.equals("ROL") || opcode.equals("ROR")) {
             vartype_ = "int";
         }
         Variable_t v2 = (Variable_t) n.f2.accept(this, argu);
@@ -534,7 +534,7 @@ public class HEJava2Spiglet extends GJDepthFirst<Base_t, Base_t> {
         String expr = v2.getRegister();
         String t2_type = v2.getType();
         if (vartype_.equals("EncInt") || vartype_.equals("EncInt[]")) {
-            if (! (opcode.equals("SLL") || opcode.equals("SRL"))) {
+            if (! (opcode.equals("SLL") || opcode.equals("SRL") || opcode.equals("ROL") || opcode.equals("ROR"))) {
                 if (!t2_type.equals("EncInt")) { // if it's an operation between unencrypted and encrypted
                     String enc_temp_2 = newTemp();
                     this.asm_.append("E_CONST ").append(enc_temp_2).append(" ").append(expr).append("\n");
@@ -747,6 +747,7 @@ public class HEJava2Spiglet extends GJDepthFirst<Base_t, Base_t> {
         return null;
     }
 
+
     /**
      * f0 -> LogicalAndExpression()
      * | LogicalOrExpression()
@@ -760,6 +761,7 @@ public class HEJava2Spiglet extends GJDepthFirst<Base_t, Base_t> {
      * | PrivateReadExpression()
      * | PublicSeekExpression()
      * | PrivateSeekExpression()
+     * | SqrtExpression()
      * | Clause()
      */
     public Base_t visit(Expression n, Base_t argu) throws Exception {
@@ -861,7 +863,7 @@ public class HEJava2Spiglet extends GJDepthFirst<Base_t, Base_t> {
         } else {
             throw new IllegalStateException("CompoundAssignmentStatement: Unexpected value: " + operator);
         }
-        if (opcode.equals("SLL") || opcode.equals("SRL")) {
+        if (opcode.equals("SLL") || opcode.equals("SRL")|| opcode.equals("ROR")|| opcode.equals("ROL")) {
             vartype_ = "int";
         }
         Variable_t v2 = (Variable_t) n.f2.accept(this, argu);
@@ -879,7 +881,7 @@ public class HEJava2Spiglet extends GJDepthFirst<Base_t, Base_t> {
                 this.asm_.append("E_CONST ").append(enc_temp_1).append(" ").append(t1).append("\n");
                 t1 = enc_temp_1;
             }
-            if (! (opcode.equals("SLL") || opcode.equals("SRL"))) {
+            if (! (opcode.equals("SLL") || opcode.equals("SRL")|| opcode.equals("ROR")|| opcode.equals("ROL"))) {
                 if (t2_type != null && !t2_type.equals("EncInt")) { // if it's an operation between unencrypted and encrypted
                     String enc_temp_2 = newTemp();
                     this.asm_.append("E_CONST ").append(enc_temp_2).append(" ").append(t2).append("\n");
@@ -919,6 +921,22 @@ public class HEJava2Spiglet extends GJDepthFirst<Base_t, Base_t> {
         }
         vartype_ = prev_var_type;
         return new Variable_t(binexpr_type, null, ret);
+    }
+
+    /***
+     * f0 -> "Processor.sqrt"
+     * f1 -> "("
+     * f2 -> Expression()
+     * f3 -> ")"
+     */
+    public Base_t visit(SqrtExpression n, Base_t argu) throws Exception{
+        String ret = newTemp();
+        Variable_t v1 = (Variable_t) n.f2.accept(this, argu);
+        String t1 = v1.getRegister();
+        vartype_ = v1.getType();
+
+        this.asm_.append("MOVE ").append(ret).append(" ").append("E_SQRT").append(" ").append(t1).append("\n");
+        return new Variable_t("EncInt", null, ret);
     }
 
     /**

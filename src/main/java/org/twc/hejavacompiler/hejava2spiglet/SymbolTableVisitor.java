@@ -447,6 +447,7 @@ public class SymbolTableVisitor extends GJNoArguDepthFirst<Base_t> {
      * | PrintStatement() ";"
      * | PrintLineStatement() ";"
      * | AnswerStatement() ";"
+     * | SqrtStatement() ";"
      */
     public Base_t visit(Statement n) throws Exception {
         return n.f0.accept(this);

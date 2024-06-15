@@ -403,9 +403,19 @@ public class Spiglet2Kanga extends GJNoArguDepthFirst<String> {
                 "E_LT ", "E_LTE ", "E_GT ", "E_GTE ", "E_EQ ", "E_NEQ ",
                 "E_PLUS ", "E_MINUS ", "E_TIMES ", "E_DIV ", "E_MOD ",
                 "E_AND ", "E_OR ", "E_XOR ", "E_SLL ", "E_SRL ",
-                "E_ROL ", "E_ROR "
+                "E_ROL ", "E_ROR ",
+                "E_SQRT "
         };
         return _ret[n.f0.which];
+    }
+
+    /**
+     * f0 -> "E_SQRT"
+     * f1 -> SimpleExp()
+     */
+    public String visit(SqrtExp n) throws Exception {
+// TODO
+        return "E_SQRT " + n.f1.accept(this);
     }
 
     /**
