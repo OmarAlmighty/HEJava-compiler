@@ -131,6 +131,7 @@ TOKEN :
 | < E_VAR : "E_VAR" >
 | < E_LIST : "E_LIST" >
 | < SECREAD_L : "SECREAD_L" >
+| < E_MEAN : "E_MEAN" >
 }
 
 TOKEN : /* LITERALS */
@@ -374,6 +375,7 @@ void Exp():
 | SimpleExp()
 | SqrtExp()
 | VarianceExp()
+| MeanExp()
 }
 
 
@@ -438,6 +440,12 @@ void VarianceExp() :
 {}
 {
 <E_VAR> SimpleExp()
+}
+
+void MeanExp() :
+{}
+{
+<E_MEAN> SimpleExp()
 }
 
 void NotExp() :

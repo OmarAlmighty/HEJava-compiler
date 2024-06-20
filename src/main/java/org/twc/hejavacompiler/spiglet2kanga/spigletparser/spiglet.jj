@@ -100,6 +100,7 @@ TOKEN :
 | < PRIVATE_READ_L : "SECREAD_L" >
 | < E_LIST : "E_LIST" >
 | < E_VAR : "E_VAR" >
+| < E_MEAN : "E_MEAN" >
 }
 
 TOKEN : /* LITERALS */
@@ -320,6 +321,8 @@ void Exp():
   SqrtExp()
 |
   VarianceExp()
+|
+  MeanExp()
 }
 
 void SqrtExp():
@@ -328,13 +331,17 @@ void SqrtExp():
 <E_SQRT> SimpleExp()
 }
 
-void VarianceExp():
+void VarianceExp() :
 {}
 {
 <E_VAR> SimpleExp()
 }
 
-
+void MeanExp() :
+{}
+{
+<E_MEAN> SimpleExp()
+}
 void StmtExp() :
 {}
 {

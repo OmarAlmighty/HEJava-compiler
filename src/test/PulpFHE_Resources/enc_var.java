@@ -1,4 +1,4 @@
-class SimpleArr {
+class EncVar {
 
     public static void main(String[] str) {
         EncInt y;

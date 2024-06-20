@@ -90,7 +90,9 @@ TOKEN :
 	| <SQRT : "Processor.sqrt" > // Square root
 	| <PRIVATE_READ_L: "PrivateTape.readList" > // Reading a list of numbers for other complex instructions
 	| <EncIntList : "EncIntList"> // A list of encrypted integers
-	| <VARIANCE : "Processor.var">
+	| <VARIANCE : "Processor.var"> // Compute the variane
+	| <MEAN : "Processor.mean"> // Compute the mean
+
 }
 
 TOKEN : /* LITERALS */
@@ -467,6 +469,8 @@ void Expression() :
     VarianceExpression()
 |   LOOKAHEAD(<PRIVATE_READ_L>)
     PrivateReadListExpression()
+|   LOOKAHEAD( <MEAN> )
+    MeanExpression()
 | 	Clause()
 
 	/*OMAR: 
@@ -485,6 +489,12 @@ void VarianceExpression() :
 {}
 {
  <VARIANCE> "(" PrimaryExpression() ")"
+}
+
+void MeanExpression() :
+{}
+{
+ <MEAN> "(" PrimaryExpression() ")"
 }
 
 void LogicalAndExpression() :

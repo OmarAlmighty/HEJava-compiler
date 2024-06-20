@@ -379,6 +379,14 @@ public class GetFlowGraph extends GJNoArguDepthFirst<String> {
     }
 
     /**
+     * f0 -> "E_MEAN"
+     * f1 -> SimpleExp()
+     */
+    public String visit(MeanExp n) throws Exception {
+        return n.f1.accept(this);
+    }
+
+    /**
      * f0 -> "NOT"
      * f1 -> SimpleExp()
      */
