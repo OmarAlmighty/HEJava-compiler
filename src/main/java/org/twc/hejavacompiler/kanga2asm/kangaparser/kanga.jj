@@ -125,9 +125,12 @@ TOKEN :
 | < sp: "sp" >
 | < fp: "fp" >
 | < ra: "ra" >
-| < E_ROR : "E_ROR">
-| < E_ROL : "E_ROL">
-| < E_SQRT : "E_SQRT">
+| < E_ROR : "E_ROR" >
+| < E_ROL : "E_ROL" >
+| < E_SQRT : "E_SQRT" >
+| < E_VAR : "E_VAR" >
+| < E_LIST : "E_LIST" >
+| < SECREAD_L : "SECREAD_L" >
 }
 
 TOKEN : /* LITERALS */
@@ -212,11 +215,13 @@ void Stmt() :
 | HLoadStmt()
 | MoveStmt()
 | EConstStmt()
+| EListStmt()
 | PrintStmt()
 | PrintlnStmt()
 | AnswerStmt()
 | PublicReadStmt()
 | PrivateReadStmt()
+| PrivateReadListStmt()
 | PublicSeekStmt()
 | PrivateSeekStmt()
 | MuxStmt()
@@ -274,6 +279,13 @@ void EConstStmt() :
   "E_CONST" Reg() Exp()
 }
 
+void EListStmt() :
+{}
+{
+  "E_LIST" Reg()
+}
+
+
 void PrintStmt() :
 {}
 {
@@ -302,6 +314,12 @@ void PrivateReadStmt() :
 {}
 {
   "SECREAD" Reg()
+}
+
+void PrivateReadListStmt() :
+{}
+{
+  "SECREAD_L" Reg() SimpleExp()
 }
 
 void PublicSeekStmt() :
@@ -355,6 +373,7 @@ void Exp():
 | NotExp()
 | SimpleExp()
 | SqrtExp()
+| VarianceExp()
 }
 
 
@@ -413,6 +432,12 @@ void SqrtExp() :
 {}
 {
 <E_SQRT> SimpleExp()
+}
+
+void VarianceExp() :
+{}
+{
+<E_VAR> SimpleExp()
 }
 
 void NotExp() :

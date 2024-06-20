@@ -16,6 +16,8 @@ public class HEJava2Spiglet extends GJDepthFirst<Base_t, Base_t> {
     private boolean may_has_error_;
     private String vartype_;
 
+    private String listID;
+
     public String newLabel() {
         return "L" + (++this.label_cnt_);
     }
@@ -109,9 +111,9 @@ public class HEJava2Spiglet extends GJDepthFirst<Base_t, Base_t> {
         return null;
     }
     /** OMAR:
-            The new instructions should have some `visit` functions to parse them here.
-    */
-    
+     The new instructions should have some `visit` functions to parse them here.
+     */
+
     /**
      * f0 -> ClassDeclaration()
      * | ClassExtendsDeclaration()
@@ -189,7 +191,10 @@ public class HEJava2Spiglet extends GJDepthFirst<Base_t, Base_t> {
                     throw new Exception("VarDeclaration Error 1");
                 }
                 if (var.getRegister() == null) {
-                    if (vartype_ == null || !vartype_.equals("EncInt")) {
+                    if (vartype_.equals("EncIntList")) {
+                        this.asm_.append("E_LIST ").append(tmp).append("\n");
+                        this.listID = tmp;
+                    } else if (vartype_ == null || !vartype_.equals("EncInt")) {
                         this.asm_.append("MOVE ").append(tmp).append(" 0\n");
                     } else {
                         this.asm_.append("E_CONST ").append(tmp).append(" 0\n");
@@ -350,6 +355,12 @@ public class HEJava2Spiglet extends GJDepthFirst<Base_t, Base_t> {
         return new Variable_t("EncInt");
     }
 
+    /**
+     * f0 -> "EncIntList"
+     */
+    public Base_t visit(EncryptedIntegerListType n, Base_t argu) throws Exception {
+        return new Variable_t("EncIntList");
+    }
 
     /**
      * f0 -> Block()
@@ -403,6 +414,11 @@ public class HEJava2Spiglet extends GJDepthFirst<Base_t, Base_t> {
                     this.asm_.append("HSTORE " + " TEMP 0 ").append(var.getNum()).append(" ").append(expr_reg).append("\n");
                 }
                 return null;
+            } else if (vartype_.equals("EncIntList")) {
+                this.listID = id;
+                if (n.f2.f0.which != 14) // if it is not a secread_L
+                    this.asm_.append("MOVE ").append(var.getRegister()).append(" ").append(expr_reg).append("\n");
+
             } else { // if a local var
                 this.asm_.append("MOVE ").append(var.getRegister()).append(" ").append(expr_reg).append("\n");
             }
@@ -534,7 +550,7 @@ public class HEJava2Spiglet extends GJDepthFirst<Base_t, Base_t> {
         String expr = v2.getRegister();
         String t2_type = v2.getType();
         if (vartype_.equals("EncInt") || vartype_.equals("EncInt[]")) {
-            if (! (opcode.equals("SLL") || opcode.equals("SRL") || opcode.equals("ROL") || opcode.equals("ROR"))) {
+            if (!(opcode.equals("SLL") || opcode.equals("SRL") || opcode.equals("ROL") || opcode.equals("ROR"))) {
                 if (!t2_type.equals("EncInt")) { // if it's an operation between unencrypted and encrypted
                     String enc_temp_2 = newTemp();
                     this.asm_.append("E_CONST ").append(enc_temp_2).append(" ").append(expr).append("\n");
@@ -580,7 +596,7 @@ public class HEJava2Spiglet extends GJDepthFirst<Base_t, Base_t> {
      * | 	"^="
      */
     public Base_t visit(CompoundOperator n, Base_t argu) throws Exception {
-        String[] _ret = {"+=", "-=", "*=", "/=", "%=", "<<=", ">>=", "&=", "|=", "^=",  ">>>=", "<<<="};
+        String[] _ret = {"+=", "-=", "*=", "/=", "%=", "<<=", ">>=", "&=", "|=", "^=", ">>>=", "<<<="};
         return new Variable_t(_ret[n.f0.which], _ret[n.f0.which]);
     }
 
@@ -620,6 +636,7 @@ public class HEJava2Spiglet extends GJDepthFirst<Base_t, Base_t> {
         String expr = ((Variable_t) n.f5.accept(this, argu)).getRegister();
         this.asm_.append("HSTORE ").append(temp_array).append(" 0 ").append(expr).append("\n");
         vartype_ = "int";
+        System.out.println("This is an array: " + identifier.getRegister());
         return new Variable_t(temp_array);
     }
 
@@ -762,6 +779,7 @@ public class HEJava2Spiglet extends GJDepthFirst<Base_t, Base_t> {
      * | PublicSeekExpression()
      * | PrivateSeekExpression()
      * | SqrtExpression()
+     * | VarianceExpression()
      * | Clause()
      */
     public Base_t visit(Expression n, Base_t argu) throws Exception {
@@ -854,7 +872,7 @@ public class HEJava2Spiglet extends GJDepthFirst<Base_t, Base_t> {
             opcode = "GTE";
         } else if (">>>=".equals(operator)) {
             opcode = "ROR";
-        } else if (">>>".equals(operator)){
+        } else if (">>>".equals(operator)) {
             opcode = "ROR";
         } else if ("<<<=".equals(operator)) {
             opcode = "ROL";
@@ -863,7 +881,7 @@ public class HEJava2Spiglet extends GJDepthFirst<Base_t, Base_t> {
         } else {
             throw new IllegalStateException("CompoundAssignmentStatement: Unexpected value: " + operator);
         }
-        if (opcode.equals("SLL") || opcode.equals("SRL")|| opcode.equals("ROR")|| opcode.equals("ROL")) {
+        if (opcode.equals("SLL") || opcode.equals("SRL") || opcode.equals("ROR") || opcode.equals("ROL")) {
             vartype_ = "int";
         }
         Variable_t v2 = (Variable_t) n.f2.accept(this, argu);
@@ -881,7 +899,7 @@ public class HEJava2Spiglet extends GJDepthFirst<Base_t, Base_t> {
                 this.asm_.append("E_CONST ").append(enc_temp_1).append(" ").append(t1).append("\n");
                 t1 = enc_temp_1;
             }
-            if (! (opcode.equals("SLL") || opcode.equals("SRL")|| opcode.equals("ROR")|| opcode.equals("ROL"))) {
+            if (!(opcode.equals("SLL") || opcode.equals("SRL") || opcode.equals("ROR") || opcode.equals("ROL"))) {
                 if (t2_type != null && !t2_type.equals("EncInt")) { // if it's an operation between unencrypted and encrypted
                     String enc_temp_2 = newTemp();
                     this.asm_.append("E_CONST ").append(enc_temp_2).append(" ").append(t2).append("\n");
@@ -923,22 +941,36 @@ public class HEJava2Spiglet extends GJDepthFirst<Base_t, Base_t> {
         return new Variable_t(binexpr_type, null, ret);
     }
 
-    /***
+    /**
      * f0 -> "Processor.sqrt"
      * f1 -> "("
      * f2 -> Expression()
      * f3 -> ")"
      */
-    public Base_t visit(SqrtExpression n, Base_t argu) throws Exception{
+    public Base_t visit(SqrtExpression n, Base_t argu) throws Exception {
+        String ret = newTemp();
+        Variable_t v1 = (Variable_t) n.f2.accept(this, argu);
+        String t1 = v1.getRegister();
+        vartype_ = v1.getType();
+        this.asm_.append("MOVE ").append(ret).append(" ").append("E_SQRT").append(" ").append(t1).append("\n");
+        return new Variable_t("EncInt", null, ret);
+    }
+
+    /**
+     * f0 -> "Processor.var"
+     * f1 -> "("
+     * f2 -> PrimaryExpression()
+     * f3 -> ")"
+     */
+    public Base_t visit(VarianceExpression n, Base_t argu) throws Exception {
         String ret = newTemp();
         Variable_t v1 = (Variable_t) n.f2.accept(this, argu);
         String t1 = v1.getRegister();
         vartype_ = v1.getType();
 
-        this.asm_.append("MOVE ").append(ret).append(" ").append("E_SQRT").append(" ").append(t1).append("\n");
+        this.asm_.append("MOVE ").append(ret).append(" ").append("E_VAR").append(" ").append(t1).append("\n");
         return new Variable_t("EncInt", null, ret);
     }
-
     /**
      * f0 -> "&"
      * |	"|"
@@ -985,6 +1017,7 @@ public class HEJava2Spiglet extends GJDepthFirst<Base_t, Base_t> {
         this.may_has_error_ = true;
         String error_label = "Runtime_Error";
         String array = ((Variable_t) n.f0.accept(this, argu)).getRegister();
+        System.out.println(array);
         // load length
         this.asm_.append("HLOAD ").append(length).append(" ").append(array).append(" 0\n");
         vartype_ = "int";
@@ -1118,6 +1151,19 @@ public class HEJava2Spiglet extends GJDepthFirst<Base_t, Base_t> {
         String ret = newTemp();
         this.asm_.append("SECREAD ").append(ret).append("\n");
         return new Variable_t("EncInt", null, ret);
+    }
+
+    /**
+     * f0 -> <PRIVATE_READ_L>
+     * f1 -> "("
+     * f2 -> PrimaryExpression()
+     * f3 -> ")"
+     */
+    public Base_t visit(PrivateReadListExpression n, Base_t argu) throws Exception {
+        String ret = newTemp();
+        String t = ((Variable_t) n.f2.accept(this, argu)).getRegister();
+        this.asm_.append("SECREAD_L ").append(this.listID).append(" ").append(t).append("\n");
+        return new Variable_t("EncIntList", null, ret);
     }
 
     /**

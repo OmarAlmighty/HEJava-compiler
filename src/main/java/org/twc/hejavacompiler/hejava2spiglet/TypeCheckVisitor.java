@@ -321,6 +321,13 @@ public class TypeCheckVisitor extends GJDepthFirst<Base_t, Base_t> {
     }
 
     /**
+     * f0 -> "EncIntList"
+     */
+    public Base_t visit(EncryptedIntegerListType n, Base_t argu) throws Exception {
+        return new Variable_t("EncIntList");
+    }
+
+    /**
      * f0 -> Block()
      * | AssignmentStatement() ";"
      * | IncrementAssignmentStatement() ";"
@@ -762,6 +769,16 @@ public class TypeCheckVisitor extends GJDepthFirst<Base_t, Base_t> {
     }
 
     /**
+     * f0 -> "Processor.var"
+     * f1 -> "("
+     * f2 -> Expression()
+     * f3 -> ")"
+     * */
+    @Override
+    public Base_t visit(VarianceExpression n, Base_t argu) throws Exception {
+        return new Variable_t("EncInt");
+    }
+    /**
      * f0 -> "~"
      * f1 -> PrimaryExpression()
      */
@@ -918,6 +935,21 @@ public class TypeCheckVisitor extends GJDepthFirst<Base_t, Base_t> {
     public Base_t visit(PrivateReadExpression n, Base_t argu) throws Exception {
         return new Variable_t("EncInt");
     }
+
+    /**
+     * f0 -> <PRIVATE_READ_L>
+     * f1 -> "("
+     * f2 -> PrimaryExpression()
+     * f3 -> ")"
+     */
+    public Base_t visit(PrivateReadListExpression n, Base_t argu) throws Exception {
+        String type = findType((Variable_t) n.f2.accept(this, argu), (Method_t) argu).getType();
+        if (type.equals("int")) {
+            return new Variable_t("EncIntList");
+        }
+        throw new Exception("ReadList statement parameter should be integer");
+    }
+
 
     /**
      * f0 -> <PUBLIC_SEEK>

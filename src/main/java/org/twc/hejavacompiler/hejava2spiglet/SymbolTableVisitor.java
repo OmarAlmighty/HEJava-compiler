@@ -83,7 +83,9 @@ public class SymbolTableVisitor extends GJNoArguDepthFirst<Base_t> {
                 Variable_t vars = (Variable_t) n.f14.nodes.get(i).accept(this);
                 if (vars.getHasMany()) {
                     String vartype = vars.getType();
-                    if (!(vartype.equals("int") || vartype.equals("EncInt") || vartype.equals("boolean") || vartype.equals("int[]") || vartype.equals("EncInt[]") || st_.containsKey(vartype))) {
+                    if (!(vartype.equals("int") || vartype.equals("EncInt") || vartype.equals("boolean") ||
+                            vartype.equals("int[]") || vartype.equals("EncInt[]") || st_.containsKey(vartype)
+                    || vartype.equals("EncIntList"))) {
                         throw new Exception(classname + ": Cannot declare " + vartype + " does not exist");
                     }
                     for (String varname : vars.getVarList()) {
@@ -96,7 +98,9 @@ public class SymbolTableVisitor extends GJNoArguDepthFirst<Base_t> {
                         throw new Exception("Class " + classname + ": Variable " + n.f14.nodes.get(i).accept(this).getName() + " already exists");
                     }
                     String vartype = ((Variable_t) n.f14.nodes.get(i).accept(this)).getType();
-                    if (!(vartype.equals("int") || vartype.equals("EncInt") || vartype.equals("boolean") || vartype.equals("int[]") || vartype.equals("EncInt[]") || st_.containsKey(vartype))) {
+                    if (!(vartype.equals("int") || vartype.equals("EncInt") || vartype.equals("boolean") ||
+                            vartype.equals("int[]") || vartype.equals("EncInt[]") || st_.containsKey(vartype)
+                        || vartype.equals("EncIntList"))) {
                         throw new Exception(classname + ": Cannot declare " + vartype + " does not exist");
                     }
                 }
@@ -133,7 +137,9 @@ public class SymbolTableVisitor extends GJNoArguDepthFirst<Base_t> {
                 Variable_t vars = (Variable_t) n.f3.nodes.get(i).accept(this);
                 if (vars.getHasMany()) {
                     String vartype = vars.getType();
-                    if (!(vartype.equals("int") || vartype.equals("EncInt") || vartype.equals("boolean") || vartype.equals("int[]") || vartype.equals("EncInt[]") || st_.containsKey(vartype))) {
+                    if (!(vartype.equals("int") || vartype.equals("EncInt") || vartype.equals("boolean") ||
+                            vartype.equals("int[]") || vartype.equals("EncInt[]") || st_.containsKey(vartype)
+                         )) {
                         throw new Exception(classname + ": Cannot declare " + vartype + " does not exist");
                     }
                     for (String varname : vars.getVarList()) {
@@ -146,7 +152,9 @@ public class SymbolTableVisitor extends GJNoArguDepthFirst<Base_t> {
                         throw new Exception("Class " + classname + ": Variable " + n.f3.nodes.get(i).accept(this).getName() + " already exists");
                     }
                     String vartype = ((Variable_t) n.f3.nodes.get(i).accept(this)).getType();
-                    if (!(vartype.equals("int") || vartype.equals("EncInt") || vartype.equals("boolean") || vartype.equals("int[]") || vartype.equals("EncInt[]") || st_.containsKey(vartype))) {
+                    if (!(vartype.equals("int") || vartype.equals("EncInt") || vartype.equals("boolean") ||
+                            vartype.equals("int[]") || vartype.equals("EncInt[]") || st_.containsKey(vartype)
+                            || vartype.equals("EncIntList"))) {
                         throw new Exception(classname + ": Cannot declare " + vartype + " does not exist");
                     }
                 }
@@ -160,7 +168,9 @@ public class SymbolTableVisitor extends GJNoArguDepthFirst<Base_t> {
                     throw new Exception("Class " + classname + ": Method " + n.f4.nodes.get(i).accept(this).getName() + " already exists");
                 }
                 String vartype = ((Method_t) n.f4.nodes.get(i).accept(this)).getType_();
-                if (!(vartype.equals("int") || vartype.equals("EncInt") || vartype.equals("boolean") || vartype.equals("int[]") || vartype.equals("EncInt[]") || st_.containsKey(vartype))) {
+                if (!(vartype.equals("int") || vartype.equals("EncInt") || vartype.equals("boolean") ||
+                        vartype.equals("int[]") || vartype.equals("EncInt[]") || st_.containsKey(vartype)
+                        || vartype.equals("EncIntList"))) {
                     throw new Exception(classname + ": Cannot declare " + vartype + " does not exist");
                 }
             }
@@ -193,7 +203,9 @@ public class SymbolTableVisitor extends GJNoArguDepthFirst<Base_t> {
                 Variable_t vars = (Variable_t) n.f5.nodes.get(i).accept(this);
                 if (vars.getHasMany()) {
                     String vartype = vars.getType();
-                    if (!(vartype.equals("int") || vartype.equals("EncInt") || vartype.equals("boolean") || vartype.equals("int[]") || vartype.equals("EncInt[]") || st_.containsKey(vartype))) {
+                    if (!(vartype.equals("int") || vartype.equals("EncInt") || vartype.equals("boolean") ||
+                            vartype.equals("int[]") || vartype.equals("EncInt[]") || st_.containsKey(vartype)
+                            || vartype.equals("EncIntList"))) {
                         throw new Exception(id + ": Cannot declare " + vartype + " does not exist.");
                     }
                     for (String varname : vars.getVarList()) {
@@ -206,7 +218,9 @@ public class SymbolTableVisitor extends GJNoArguDepthFirst<Base_t> {
                         throw new Exception("Class " + id + ": Variable " + vars.getName() + " already exists.");
                     }
                     String vartype = vars.getType();
-                    if (!(vartype.equals("int") || vartype.equals("EncInt") || vartype.equals("boolean") || vartype.equals("int[]") || vartype.equals("EncInt[]") || st_.containsKey(vartype))) {
+                    if (!(vartype.equals("int") || vartype.equals("EncInt") || vartype.equals("boolean") ||
+                            vartype.equals("int[]") || vartype.equals("EncInt[]") || st_.containsKey(vartype)
+                            || vartype.equals("EncIntList"))) {
                         throw new Exception(id + ": Cannot declare " + vartype + " does not exist.");
                     }
                 }
@@ -228,7 +242,9 @@ public class SymbolTableVisitor extends GJNoArguDepthFirst<Base_t> {
                     }
                 }
                 String vartype = m.getType_();
-                if (!(vartype.equals("int") || vartype.equals("EncInt") || vartype.equals("boolean") || vartype.equals("int[]") || vartype.equals("EncInt[]") || st_.containsKey(vartype))) {
+                if (!(vartype.equals("int") || vartype.equals("EncInt") || vartype.equals("boolean") ||
+                        vartype.equals("int[]") || vartype.equals("EncInt[]") || st_.containsKey(vartype)
+                        || vartype.equals("EncIntList"))) {
                     throw new Exception(id + ": Cannot declare " + vartype + " does not exist.");
                 }
                 // if the parent-class hasnt a method with this classname
@@ -336,7 +352,9 @@ public class SymbolTableVisitor extends GJNoArguDepthFirst<Base_t> {
                 Variable_t param = m.method_params.get(i);
                 meth.addParam(param);
                 String vartype = param.getType();
-                if (!(vartype.equals("int") || vartype.equals("EncInt") || vartype.equals("boolean") || vartype.equals("int[]") || vartype.equals("EncInt[]") || st_.containsKey(vartype))) {
+                if (!(vartype.equals("int") || vartype.equals("EncInt") || vartype.equals("boolean") ||
+                        vartype.equals("int[]") || vartype.equals("EncInt[]") || st_.containsKey(vartype)
+                        || vartype.equals("EncIntList"))) {
                     throw new Exception(meth_name + ": Cannot declare " + vartype + " does not exist");
                 }
             }
@@ -350,7 +368,9 @@ public class SymbolTableVisitor extends GJNoArguDepthFirst<Base_t> {
                 Variable_t vars = (Variable_t) n.f7.nodes.get(i).accept(this);
                 if (vars.getHasMany()) {
                     String vartype = vars.getType();
-                    if (!(vartype.equals("int") || vartype.equals("EncInt") || vartype.equals("boolean") || vartype.equals("int[]") || vartype.equals("EncInt[]") || st_.containsKey(vartype))) {
+                    if (!(vartype.equals("int") || vartype.equals("EncInt") || vartype.equals("boolean") ||
+                            vartype.equals("int[]") || vartype.equals("EncInt[]") || st_.containsKey(vartype)
+                            || vartype.equals("EncIntList"))) {
                         throw new Exception(meth_name + ": Cannot declare " + vartype + " does not exist");
                     }
                     for (String varname : vars.getVarList()) {
@@ -363,7 +383,9 @@ public class SymbolTableVisitor extends GJNoArguDepthFirst<Base_t> {
                         throw new Exception("Method " + meth_name + ": Variable " + vars.getName() + " already exists");
                     }
                     String vartype = vars.getType();
-                    if (!(vartype.equals("int") || vartype.equals("EncInt") || vartype.equals("boolean") || vartype.equals("int[]") || vartype.equals("EncInt[]") || st_.containsKey(vartype))) {
+                    if (!(vartype.equals("int") || vartype.equals("EncInt") || vartype.equals("boolean") ||
+                            vartype.equals("int[]") || vartype.equals("EncInt[]") || st_.containsKey(vartype)
+                            || vartype.equals("EncIntList"))) {
                         throw new Exception(meth_name + ": Cannot declare " + vartype + " does not exist");
                     }
                 }
@@ -447,7 +469,6 @@ public class SymbolTableVisitor extends GJNoArguDepthFirst<Base_t> {
      * | PrintStatement() ";"
      * | PrintLineStatement() ";"
      * | AnswerStatement() ";"
-     * | SqrtStatement() ";"
      */
     public Base_t visit(Statement n) throws Exception {
         return n.f0.accept(this);
@@ -523,6 +544,13 @@ public class SymbolTableVisitor extends GJNoArguDepthFirst<Base_t> {
      */
     public Base_t visit(EncryptedIntegerType n) throws Exception {
         return new Base_t("EncInt");
+    }
+
+    /**
+     * f0 -> "EncIntList"
+     */
+    public Base_t visit(EncryptedIntegerListType n) throws Exception {
+        return new Base_t("EncIntList");
     }
 
     /**

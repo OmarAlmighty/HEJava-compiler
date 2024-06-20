@@ -182,6 +182,7 @@ public class Spiglet2Kanga extends GJNoArguDepthFirst<String> {
      * f2 -> Exp()
      */
     public String visit(MoveStmt n) throws Exception {
+
         moveToTemp(n.f1.accept(this), n.f2.accept(this));
         return null;
     }
@@ -196,6 +197,15 @@ public class Spiglet2Kanga extends GJNoArguDepthFirst<String> {
         asm_.append("\t\tE_CONST ").append(temp2Reg("", n.f1.accept(this))).append(" ").append(n.f2.accept(this)).append("\n");
 
 //        moveToTemp(n.f1.accept(this), n.f2.accept(this));
+        return null;
+    }
+
+    /**
+     * f0 -> "E_LIST"
+     * f1 -> Temp()
+     */
+    public String visit(EListStmt n) throws Exception {
+        asm_.append("\t\tE_LIST ").append(temp2Reg("", n.f1.accept(this))).append("\n");
         return null;
     }
 
@@ -245,6 +255,17 @@ public class Spiglet2Kanga extends GJNoArguDepthFirst<String> {
     }
 
     /**
+     * f0 -> "SECREAD_L"
+     * f1 -> Temp()
+     * f2 -> SimpleExp()
+     */
+    public String visit(PrivateReadListStmt n) throws Exception {
+        asm_.append("\t\tSECREAD_L ").append(temp2Reg("", n.f1.accept(this))).append(" ")
+                .append(n.f2.accept(this)).append("\n");
+        return null;
+    }
+
+    /**
      * f0 -> "PUBSEEK"
      * f1 -> Temp()
      * f2 -> SimpleExp()
@@ -263,6 +284,8 @@ public class Spiglet2Kanga extends GJNoArguDepthFirst<String> {
         asm_.append("\t\tSECSEEK ").append(temp2Reg("", n.f1.accept(this))).append(" ").append(n.f2.accept(this)).append("\n");
         return null;
     }
+
+
 
     /**
      * f0 -> "MUX"
@@ -404,7 +427,9 @@ public class Spiglet2Kanga extends GJNoArguDepthFirst<String> {
                 "E_PLUS ", "E_MINUS ", "E_TIMES ", "E_DIV ", "E_MOD ",
                 "E_AND ", "E_OR ", "E_XOR ", "E_SLL ", "E_SRL ",
                 "E_ROL ", "E_ROR ",
-                "E_SQRT "
+                "E_SQRT ",
+                "E_VAR ",
+
         };
         return _ret[n.f0.which];
     }
@@ -414,8 +439,15 @@ public class Spiglet2Kanga extends GJNoArguDepthFirst<String> {
      * f1 -> SimpleExp()
      */
     public String visit(SqrtExp n) throws Exception {
-// TODO
         return "E_SQRT " + n.f1.accept(this);
+    }
+
+    /**
+     * f0 -> "E_VAR"
+     * f1 -> SimpleExp()
+     */
+    public String visit(VarianceExp n) throws Exception {
+        return "E_VAR " +  n.f1.accept(this);
     }
 
     /**

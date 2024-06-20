@@ -94,9 +94,12 @@ TOKEN :
 | < MEM: "MEM" >
 | < TEMP: "TEMP" >
 | < ARG: "ARG" >
-| < E_ROR: "E_ROR">
-| < E_ROL : "E_ROL">
-| <E_SQRT : "E_SQRT">
+| < E_ROR: "E_ROR" >
+| < E_ROL : "E_ROL" >
+| < E_SQRT : "E_SQRT" >
+| < PRIVATE_READ_L : "SECREAD_L" >
+| < E_LIST : "E_LIST" >
+| < E_VAR : "E_VAR" >
 }
 
 TOKEN : /* LITERALS */
@@ -181,11 +184,13 @@ void Stmt() :
 | HLoadStmt()
 | MoveStmt()
 | EConstStmt()
+| EListStmt()
 | PrintStmt()
 | PrintlnStmt()
 | AnswerStmt()
 | PublicReadStmt()
 | PrivateReadStmt()
+| PrivateReadListStmt()
 | PublicSeekStmt()
 | PrivateSeekStmt()
 | MuxStmt()
@@ -239,6 +244,12 @@ void EConstStmt() :
   "E_CONST" Temp() Exp()
 }
 
+void EListStmt() :
+{}
+{
+"E_LIST" Temp()
+}
+
 void PrintStmt() :
 {}
 {
@@ -267,6 +278,12 @@ void PrivateReadStmt() :
 {}
 {
   "SECREAD" Temp()
+}
+
+void PrivateReadListStmt() :
+{}
+{
+  "SECREAD_L" Temp() SimpleExp()
 }
 
 void PublicSeekStmt() :
@@ -301,6 +318,8 @@ void Exp():
   SimpleExp()
 |
   SqrtExp()
+|
+  VarianceExp()
 }
 
 void SqrtExp():
@@ -308,6 +327,14 @@ void SqrtExp():
 {
 <E_SQRT> SimpleExp()
 }
+
+void VarianceExp():
+{}
+{
+<E_VAR> SimpleExp()
+}
+
+
 void StmtExp() :
 {}
 {

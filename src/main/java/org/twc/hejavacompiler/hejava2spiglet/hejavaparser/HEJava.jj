@@ -87,7 +87,10 @@ TOKEN :
 	*/
 	| <ROR : ">>>">  // Rotate right
 	| <ROL : "<<<">  // Rotate left
-	| <SQRT : "Processor.sqrt" >
+	| <SQRT : "Processor.sqrt" > // Square root
+	| <PRIVATE_READ_L: "PrivateTape.readList" > // Reading a list of numbers for other complex instructions
+	| <EncIntList : "EncIntList"> // A list of encrypted integers
+	| <VARIANCE : "Processor.var">
 }
 
 TOKEN : /* LITERALS */
@@ -255,6 +258,7 @@ void Type() :
 | 	BooleanType()
 | 	IntegerType()
 | 	EncryptedIntegerType()
+|   EncryptedIntegerListType()
 | 	Identifier()
 }
 
@@ -287,6 +291,13 @@ void EncryptedIntegerType() :
 {
 	"EncInt"
 }
+
+void EncryptedIntegerListType() :
+{}
+{
+	"EncIntList"
+}
+
 
 void Statement() :
 {}
@@ -450,8 +461,12 @@ void Expression() :
 	PublicSeekExpression()
 | 	LOOKAHEAD( <PRIVATE_SEEK> )
 	PrivateSeekExpression()
-|  LOOKAHEAD( <SQRT> )
+|   LOOKAHEAD( <SQRT> )
     SqrtExpression()
+|   LOOKAHEAD( <VARIANCE> )
+    VarianceExpression()
+|   LOOKAHEAD(<PRIVATE_READ_L>)
+    PrivateReadListExpression()
 | 	Clause()
 
 	/*OMAR: 
@@ -464,6 +479,12 @@ void SqrtExpression() :
 {}
 {
     <SQRT> "(" Expression() ")"
+}
+
+void VarianceExpression() :
+{}
+{
+ <VARIANCE> "(" PrimaryExpression() ")"
 }
 
 void LogicalAndExpression() :
@@ -547,6 +568,12 @@ void PrivateReadExpression() :
 {}
 {
 	<PRIVATE_READ> "(" ")"
+}
+
+void PrivateReadListExpression() :
+{}
+{
+	<PRIVATE_READ_L> "(" PrimaryExpression() ")"
 }
 
 void PublicSeekExpression() :

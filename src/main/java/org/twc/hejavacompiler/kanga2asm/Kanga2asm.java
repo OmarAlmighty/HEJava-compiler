@@ -203,6 +203,16 @@ public class Kanga2asm extends GJNoArguDepthFirst<String> {
     }
 
     /**
+     * f0 -> "E_LIST"
+     * f1 -> Reg()
+     */
+    public String visit(EListStmt n) throws Exception {
+        String regTo = n.f1.accept(this);
+        asmPrinter_.println("elist " + regTo);
+        return null;
+    }
+
+    /**
      * f0 -> "PRINT"
      * f1 -> SimpleExp()
      */
@@ -249,6 +259,18 @@ public class Kanga2asm extends GJNoArguDepthFirst<String> {
     public String visit(PrivateReadStmt n) throws Exception {
         String reg = n.f1.accept(this);
         asmPrinter_.println("secread " + reg);
+        return null;
+    }
+
+    /**
+     * f0 -> "SECREAD_L"
+     * f1 -> Reg()
+     * f2 -> SimpleExp()
+     */
+    public String visit(PrivateReadListStmt n) throws Exception {
+        String reg = n.f1.accept(this);
+        String size = n.f2.accept(this);
+        asmPrinter_.println("secread_l " + reg + ", " + size);
         return null;
     }
 
@@ -402,7 +424,9 @@ public class Kanga2asm extends GJNoArguDepthFirst<String> {
                 "eadd", "esub", "emult", "ediv", "emod", // arithmetic
                 "eand", "eor", "exor", "esll", "eslr",    // bitwise
                 "erol", "eror",                                // pulpFHE
-                "esqrt"
+                "esqrt",
+                "evar"
+
         };
         return retValue[n.f0.which];
     }
@@ -415,6 +439,17 @@ public class Kanga2asm extends GJNoArguDepthFirst<String> {
         String _ret = "v1";
         String reg = n.f1.accept(this);
         asmPrinter_.println("esqrt " + _ret + ", " + reg);
+        return _ret;
+    }
+
+    /**
+     * f0 -> "E_VAR"
+     * f1 -> SimpleExp()
+     */
+    public String visit(VarianceExp n) throws Exception {
+        String _ret = "v1";
+        String reg = n.f1.accept(this);
+        asmPrinter_.println("evar " + _ret + ", " + reg);
         return _ret;
     }
 

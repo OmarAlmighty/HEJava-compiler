@@ -195,6 +195,18 @@ public class GetFlowGraph extends GJNoArguDepthFirst<String> {
     }
 
     /**
+     * f0 -> "E_LIST"
+     * f1 -> Temp()
+     */
+    public String visit(EListStmt n) throws Exception {
+        // Temp Def
+        currVertex.Def.add(Integer.parseInt(n.f1.accept(this)));
+        currMethod.flowGraph.addEdge(vid, vid + 1);
+        //n.f2.accept(this);
+        return null;
+    }
+
+    /**
      * f0 -> "PRINT"
      * f1 -> SimpleExp()
      */
@@ -247,6 +259,19 @@ public class GetFlowGraph extends GJNoArguDepthFirst<String> {
     }
 
     /**
+     * f0 -> "SECREAD_L"
+     * f1 -> Temp()
+     * f2 -> SimpleExp()
+     */
+    public String visit(PrivateReadListStmt n) throws Exception {
+        int tempNo = Integer.parseInt(n.f1.accept(this));
+        currVertex.Use.add(tempNo);
+        currMethod.flowGraph.addEdge(vid, vid + 1);
+        n.f2.accept(this);
+        return null;
+    }
+
+    /**
      * f0 -> "PUBSEEK"
      * f1 -> Temp()
      * f2 -> SimpleExp()
@@ -271,6 +296,8 @@ public class GetFlowGraph extends GJNoArguDepthFirst<String> {
         n.f2.accept(this);
         return null;
     }
+
+
 
     /**
      * f0 -> "MuxStmt"
@@ -342,6 +369,15 @@ public class GetFlowGraph extends GJNoArguDepthFirst<String> {
     public String visit(SqrtExp n) throws Exception {
         return n.f1.accept(this);
     }
+
+    /**
+     * f0 -> "E_VAR"
+     * f1 -> SimpleExp()
+     */
+    public String visit(VarianceExp n) throws Exception {
+        return n.f1.accept(this);
+    }
+
     /**
      * f0 -> "NOT"
      * f1 -> SimpleExp()
