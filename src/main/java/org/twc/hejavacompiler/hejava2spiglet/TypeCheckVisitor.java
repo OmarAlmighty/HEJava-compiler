@@ -789,6 +789,18 @@ public class TypeCheckVisitor extends GJDepthFirst<Base_t, Base_t> {
     public Base_t visit(MeanExpression n, Base_t argu) throws Exception {
         return new Variable_t("EncInt");
     }
+
+    /**
+     * f0 -> "Processor.std"
+     * f1 -> "("
+     * f2 -> PrimaryExpression()
+     * f3 -> ")"
+     * */
+    @Override
+    public Base_t visit(StdExpression n, Base_t argu) throws Exception {
+        return new Variable_t("EncInt");
+    }
+
     /**
      * f0 -> "~"
      * f1 -> PrimaryExpression()

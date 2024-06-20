@@ -466,6 +466,17 @@ public class Kanga2asm extends GJNoArguDepthFirst<String> {
     }
 
     /**
+     * f0 -> "E_STD"
+     * f1 -> SimpleExp()
+     */
+    public String visit(StdExp n) throws Exception {
+        String _ret = "v1";
+        String reg = n.f1.accept(this);
+        asmPrinter_.println("estd " + _ret + ", " + reg);
+        return _ret;
+    }
+
+    /**
      * f0 -> "NOT"
      * f1 -> SimpleExp()
      */

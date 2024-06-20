@@ -92,6 +92,7 @@ TOKEN :
 	| <EncIntList : "EncIntList"> // A list of encrypted integers
 	| <VARIANCE : "Processor.var"> // Compute the variane
 	| <MEAN : "Processor.mean"> // Compute the mean
+	| <STD : "Processor.std"> // Compute the standard deviation
 
 }
 
@@ -471,6 +472,8 @@ void Expression() :
     PrivateReadListExpression()
 |   LOOKAHEAD( <MEAN> )
     MeanExpression()
+|   LOOKAHEAD( <STD> )
+    StdExpression()
 | 	Clause()
 
 	/*OMAR: 
@@ -495,6 +498,12 @@ void MeanExpression() :
 {}
 {
  <MEAN> "(" PrimaryExpression() ")"
+}
+
+void StdExpression() :
+{}
+{
+ <STD> "(" PrimaryExpression() ")"
 }
 
 void LogicalAndExpression() :
