@@ -133,6 +133,7 @@ TOKEN :
 | < SECREAD_L : "SECREAD_L" >
 | < E_MEAN : "E_MEAN" >
 | < E_STD : "E_STD" >
+| < E_RELU : "E_RELU" >
 }
 
 TOKEN : /* LITERALS */
@@ -378,6 +379,7 @@ void Exp():
 | VarianceExp()
 | MeanExp()
 | StdExp()
+| ReluExp()
 }
 
 
@@ -436,6 +438,12 @@ void SqrtExp() :
 {}
 {
 <E_SQRT> SimpleExp()
+}
+
+void ReluExp() :
+{}
+{
+<E_RELU> SimpleExp()
 }
 
 void VarianceExp() :

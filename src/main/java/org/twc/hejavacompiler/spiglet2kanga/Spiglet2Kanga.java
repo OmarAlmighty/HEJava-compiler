@@ -430,7 +430,8 @@ public class Spiglet2Kanga extends GJNoArguDepthFirst<String> {
                 "E_SQRT ",
                 "E_VAR ",
                 "E_MEAN ",
-                "E_STD "
+                "E_STD ",
+                "E_RELU "
 
         };
         return _ret[n.f0.which];
@@ -442,6 +443,14 @@ public class Spiglet2Kanga extends GJNoArguDepthFirst<String> {
      */
     public String visit(SqrtExp n) throws Exception {
         return "E_SQRT " + n.f1.accept(this);
+    }
+
+    /**
+     * f0 -> "E_RELU"
+     * f1 -> SimpleExp()
+     */
+    public String visit(ReluExp n) throws Exception {
+        return "E_RELU " + n.f1.accept(this);
     }
 
     /**

@@ -371,6 +371,14 @@ public class GetFlowGraph extends GJNoArguDepthFirst<String> {
     }
 
     /**
+     * f0 -> "E_RELU"
+     * f1 -> SimpleExp()
+     */
+    public String visit(ReluExp n) throws Exception {
+        return n.f1.accept(this);
+    }
+
+    /**
      * f0 -> "E_VAR"
      * f1 -> SimpleExp()
      */

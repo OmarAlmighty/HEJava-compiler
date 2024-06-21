@@ -769,6 +769,18 @@ public class TypeCheckVisitor extends GJDepthFirst<Base_t, Base_t> {
     }
 
     /**
+     * f0 -> "Processor.relu"
+     * f1 -> "("
+     * f2 -> Expression()
+     * f3 -> ")"
+     * */
+    @Override
+    public Base_t visit(ReluExpression n, Base_t argu) throws Exception {
+        return new Variable_t("EncInt");
+    }
+
+
+    /**
      * f0 -> "Processor.var"
      * f1 -> "("
      * f2 -> PrimaryExpression()

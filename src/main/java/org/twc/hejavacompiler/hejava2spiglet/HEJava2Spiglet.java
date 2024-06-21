@@ -782,6 +782,7 @@ public class HEJava2Spiglet extends GJDepthFirst<Base_t, Base_t> {
      * | VarianceExpression()
      * | MeanExpression()
      * | StdExpression()
+     * | ReluExpression()
      * | Clause()
      */
     public Base_t visit(Expression n, Base_t argu) throws Exception {
@@ -957,6 +958,22 @@ public class HEJava2Spiglet extends GJDepthFirst<Base_t, Base_t> {
         this.asm_.append("MOVE ").append(ret).append(" ").append("E_SQRT").append(" ").append(t1).append("\n");
         return new Variable_t("EncInt", null, ret);
     }
+
+    /**
+     * f0 -> "Processor.relu"
+     * f1 -> "("
+     * f2 -> Expression()
+     * f3 -> ")"
+     */
+    public Base_t visit(ReluExpression n, Base_t argu) throws Exception {
+        String ret = newTemp();
+        Variable_t v1 = (Variable_t) n.f2.accept(this, argu);
+        String t1 = v1.getRegister();
+        vartype_ = v1.getType();
+        this.asm_.append("MOVE ").append(ret).append(" ").append("E_RELU").append(" ").append(t1).append("\n");
+        return new Variable_t("EncInt", null, ret);
+    }
+
 
     /**
      * f0 -> "Processor.var"

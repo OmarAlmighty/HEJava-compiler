@@ -102,6 +102,7 @@ TOKEN :
 | < E_VAR : "E_VAR" >
 | < E_MEAN : "E_MEAN" >
 | < E_STD : "E_STD" >
+| < E_RELU: "E_RELU" >
 }
 
 TOKEN : /* LITERALS */
@@ -326,12 +327,20 @@ void Exp():
   MeanExp()
 |
   StdExp()
+|
+  ReluExp()
 }
 
 void SqrtExp():
 {}
 {
 <E_SQRT> SimpleExp()
+}
+
+void ReluExp():
+{}
+{
+<E_RELU> SimpleExp()
 }
 
 void VarianceExp() :

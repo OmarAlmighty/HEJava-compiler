@@ -93,6 +93,7 @@ TOKEN :
 	| <VARIANCE : "Processor.var"> // Compute the variane
 	| <MEAN : "Processor.mean"> // Compute the mean
 	| <STD : "Processor.std"> // Compute the standard deviation
+	| <RELU : "Processor.relu"> // Compute the standard deviation
 
 }
 
@@ -474,6 +475,8 @@ void Expression() :
     MeanExpression()
 |   LOOKAHEAD( <STD> )
     StdExpression()
+|   LOOKAHEAD( <RELU> )
+    ReluExpression()
 | 	Clause()
 
 	/*OMAR: 
@@ -487,6 +490,13 @@ void SqrtExpression() :
 {
     <SQRT> "(" Expression() ")"
 }
+
+void ReluExpression() :
+{}
+{
+   <RELU> "(" Expression() ")"
+}
+
 
 void VarianceExpression() :
 {}
