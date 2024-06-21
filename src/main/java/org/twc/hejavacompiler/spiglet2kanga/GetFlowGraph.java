@@ -395,6 +395,23 @@ public class GetFlowGraph extends GJNoArguDepthFirst<String> {
     }
 
     /**
+     * f0 -> "E_MAX"
+     * f1 -> SimpleExp()
+     */
+    public String visit(MaxExp n) throws Exception {
+        return n.f1.accept(this);
+    }
+
+    /**
+     * f0 -> "E_MIN"
+     * f1 -> SimpleExp()
+     */
+    public String visit(MinExp n) throws Exception {
+        return n.f1.accept(this);
+    }
+
+
+    /**
      * f0 -> "E_STD"
      * f1 -> SimpleExp()
      */

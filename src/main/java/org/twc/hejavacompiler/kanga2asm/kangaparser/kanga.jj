@@ -134,6 +134,8 @@ TOKEN :
 | < E_MEAN : "E_MEAN" >
 | < E_STD : "E_STD" >
 | < E_RELU : "E_RELU" >
+| < E_MAX : "E_MAX" >
+| < E_MIN : "E_MIN" >
 }
 
 TOKEN : /* LITERALS */
@@ -380,6 +382,8 @@ void Exp():
 | MeanExp()
 | StdExp()
 | ReluExp()
+| MaxExp()
+| MinExp()
 }
 
 
@@ -456,6 +460,18 @@ void MeanExp() :
 {}
 {
 <E_MEAN> SimpleExp()
+}
+
+void MaxExp() :
+{}
+{
+<E_MAX> SimpleExp()
+}
+
+void MinExp() :
+{}
+{
+<E_MIN> SimpleExp()
 }
 
 void StdExp() :

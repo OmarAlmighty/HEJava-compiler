@@ -426,7 +426,8 @@ public class Kanga2asm extends GJNoArguDepthFirst<String> {
                 "erol", "eror",                                // pulpFHE
                 "esqrt",
                 "evar",
-                "emean"
+                "emean",
+                "emax", "emin"
 
         };
         return retValue[n.f0.which];
@@ -450,7 +451,7 @@ public class Kanga2asm extends GJNoArguDepthFirst<String> {
     public String visit(ReluExp n) throws Exception {
         String _ret = "v1";
         String reg = n.f1.accept(this);
-        asmPrinter_.println("erelu " + _ret + ", " + reg);
+        asmPrinter_.println("ereluf " + _ret + ", " + reg);
         return _ret;
     }
 
@@ -473,6 +474,28 @@ public class Kanga2asm extends GJNoArguDepthFirst<String> {
         String _ret = "v1";
         String reg = n.f1.accept(this);
         asmPrinter_.println("emean " + _ret + ", " + reg);
+        return _ret;
+    }
+
+    /**
+     * f0 -> "E_MAX"
+     * f1 -> SimpleExp()
+     */
+    public String visit(MaxExp n) throws Exception {
+        String _ret = "v1";
+        String reg = n.f1.accept(this);
+        asmPrinter_.println("emax " + _ret + ", " + reg);
+        return _ret;
+    }
+
+    /**
+     * f0 -> "E_MIN"
+     * f1 -> SimpleExp()
+     */
+    public String visit(MinExp n) throws Exception {
+        String _ret = "v1";
+        String reg = n.f1.accept(this);
+        asmPrinter_.println("emin " + _ret + ", " + reg);
         return _ret;
     }
 

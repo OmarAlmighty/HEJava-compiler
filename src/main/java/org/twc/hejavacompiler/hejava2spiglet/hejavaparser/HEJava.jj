@@ -93,7 +93,9 @@ TOKEN :
 	| <VARIANCE : "Processor.var"> // Compute the variane
 	| <MEAN : "Processor.mean"> // Compute the mean
 	| <STD : "Processor.std"> // Compute the standard deviation
-	| <RELU : "Processor.relu"> // Compute the standard deviation
+	| <RELU : "Processor.relu"> // Compute the Relu
+	| <MAX : "Processor.max"> // Compute the max
+	| <MIN : "Processor.min"> // Compute the min
 
 }
 
@@ -477,6 +479,10 @@ void Expression() :
     StdExpression()
 |   LOOKAHEAD( <RELU> )
     ReluExpression()
+|   LOOKAHEAD( <MAX> )
+    MaxExpression()
+|   LOOKAHEAD( <MIN> )
+    MinExpression()
 | 	Clause()
 
 	/*OMAR: 
@@ -508,6 +514,18 @@ void MeanExpression() :
 {}
 {
  <MEAN> "(" PrimaryExpression() ")"
+}
+
+void MaxExpression() :
+{}
+{
+ <MAX> "(" PrimaryExpression() ")"
+}
+
+void MinExpression() :
+{}
+{
+ <MIN> "(" PrimaryExpression() ")"
 }
 
 void StdExpression() :

@@ -783,6 +783,8 @@ public class HEJava2Spiglet extends GJDepthFirst<Base_t, Base_t> {
      * | MeanExpression()
      * | StdExpression()
      * | ReluExpression()
+     * | MaxExpression()
+     * | MinExpression()
      * | Clause()
      */
     public Base_t visit(Expression n, Base_t argu) throws Exception {
@@ -1006,6 +1008,40 @@ public class HEJava2Spiglet extends GJDepthFirst<Base_t, Base_t> {
         this.asm_.append("MOVE ").append(ret).append(" ").append("E_MEAN").append(" ").append(t1).append("\n");
         return new Variable_t("EncInt", null, ret);
     }
+
+    /**
+     * f0 -> "Processor.max"
+     * f1 -> "("
+     * f2 -> PrimaryExpression()
+     * f3 -> ")"
+     */
+    public Base_t visit(MaxExpression n, Base_t argu) throws Exception {
+        String ret = newTemp();
+        Variable_t v1 = (Variable_t) n.f2.accept(this, argu);
+        String t1 = v1.getRegister();
+        vartype_ = v1.getType();
+
+        this.asm_.append("MOVE ").append(ret).append(" ").append("E_MAX").append(" ").append(t1).append("\n");
+        return new Variable_t("EncInt", null, ret);
+    }
+
+    /**
+     * f0 -> "Processor.min"
+     * f1 -> "("
+     * f2 -> PrimaryExpression()
+     * f3 -> ")"
+     */
+    public Base_t visit(MinExpression n, Base_t argu) throws Exception {
+        String ret = newTemp();
+        Variable_t v1 = (Variable_t) n.f2.accept(this, argu);
+        String t1 = v1.getRegister();
+        vartype_ = v1.getType();
+
+        this.asm_.append("MOVE ").append(ret).append(" ").append("E_MIN").append(" ").append(t1).append("\n");
+        return new Variable_t("EncInt", null, ret);
+    }
+
+
 
     /**
      * f0 -> "Processor.std"
