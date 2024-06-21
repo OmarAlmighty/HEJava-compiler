@@ -96,6 +96,8 @@ TOKEN :
 	| <RELU : "Processor.relu"> // Compute the Relu
 	| <MAX : "Processor.max"> // Compute the max
 	| <MIN : "Processor.min"> // Compute the min
+	| <BLK3 : "Processor.blake3"> // Compute a Blake3 qurater round
+
 
 }
 
@@ -468,7 +470,7 @@ void Expression() :
 | 	LOOKAHEAD( <PRIVATE_SEEK> )
 	PrivateSeekExpression()
 |   LOOKAHEAD( <SQRT> )
-    SqrtExpression()
+           SqrtExpression()
 |   LOOKAHEAD( <VARIANCE> )
     VarianceExpression()
 |   LOOKAHEAD(<PRIVATE_READ_L>)
@@ -483,6 +485,8 @@ void Expression() :
     MaxExpression()
 |   LOOKAHEAD( <MIN> )
     MinExpression()
+|   LOOKAHEAD( <BLK3> )
+    Blk3Expression()
 | 	Clause()
 
 	/*OMAR: 
@@ -527,6 +531,13 @@ void MinExpression() :
 {
  <MIN> "(" PrimaryExpression() ")"
 }
+
+void Blk3Expression() :
+{}
+{
+ <BLK3> "(" PrimaryExpression() ")"
+}
+
 
 void StdExpression() :
 {}

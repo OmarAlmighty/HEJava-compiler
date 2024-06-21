@@ -136,6 +136,7 @@ TOKEN :
 | < E_RELU : "E_RELU" >
 | < E_MAX : "E_MAX" >
 | < E_MIN : "E_MIN" >
+| < E_BLK : "E_BLK" >
 }
 
 TOKEN : /* LITERALS */
@@ -384,6 +385,7 @@ void Exp():
 | ReluExp()
 | MaxExp()
 | MinExp()
+| BlkExp()
 }
 
 
@@ -466,6 +468,12 @@ void MaxExp() :
 {}
 {
 <E_MAX> SimpleExp()
+}
+
+void BlkExp() :
+{}
+{
+<E_BLK> SimpleExp()
 }
 
 void MinExp() :

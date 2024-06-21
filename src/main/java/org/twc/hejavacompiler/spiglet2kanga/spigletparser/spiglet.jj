@@ -105,6 +105,7 @@ TOKEN :
 | < E_RELU: "E_RELU" >
 | < E_MAX: "E_MAX" >
 | < E_MIN: "E_MIN" >
+| < E_BLK: "E_BLK" >
 
 }
 
@@ -336,6 +337,8 @@ void Exp():
   MaxExp()
 |
   MinExp()
+|
+  BlkExp()
 }
 
 void SqrtExp():
@@ -373,6 +376,13 @@ void MinExp() :
 {
 <E_MIN> SimpleExp()
 }
+
+void BlkExp() :
+{}
+{
+<E_BLK> SimpleExp()
+}
+
 
 void StdExp() :
 {}

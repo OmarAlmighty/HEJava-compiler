@@ -628,7 +628,7 @@ public class TypeCheckVisitor extends GJDepthFirst<Base_t, Base_t> {
         if (expr.getType() == null) {
             expr = findType(expr, (Method_t) argu);
         }
-        if (expr.getType().equals("boolean") || expr.getType().equals("int") || expr.getType().equals("EncInt")) {
+        if (expr.getType().equals("boolean") || expr.getType().equals("int") || expr.getType().equals("EncInt") || expr.getType().equals("EncIntList") ) {
             return null;
         }
         throw new Exception("Answer statement not boolean, int, or EncInt.");
@@ -822,6 +822,17 @@ public class TypeCheckVisitor extends GJDepthFirst<Base_t, Base_t> {
     @Override
     public Base_t visit(MinExpression n, Base_t argu) throws Exception {
         return new Variable_t("EncInt");
+    }
+
+    /**
+     * f0 -> "Processor.blake3"
+     * f1 -> "("
+     * f2 -> PrimaryExpression()
+     * f3 -> ")"
+     * */
+    @Override
+    public Base_t visit(Blk3Expression n, Base_t argu) throws Exception {
+        return new Variable_t("EncIntList");
     }
 
     /**
