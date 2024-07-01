@@ -3,7 +3,7 @@ class EncRotl {
         EncInt x;
         EncInt z;
         x = PrivateTape.read();
-        z = x <<< 4;
+        z = x <<< 8;
         Processor.answer(z);
     }
 

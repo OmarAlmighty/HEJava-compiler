@@ -452,7 +452,7 @@ public class Kanga2asm extends GJNoArguDepthFirst<String> {
     public String visit(ReluExp n) throws Exception {
         String _ret = "v1";
         String reg = n.f1.accept(this);
-        asmPrinter_.println("ereluf " + _ret + ", " + reg);
+        asmPrinter_.println("erelu " + _ret + ", " + reg);
         return _ret;
     }
 
